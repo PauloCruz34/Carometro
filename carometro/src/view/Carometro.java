@@ -1,17 +1,25 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.text.DateFormat;
+import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.DAO;
-
-import java.awt.Toolkit;
-import java.sql.Connection;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Carometro extends JFrame {
 	
@@ -25,6 +33,11 @@ public class Carometro extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JLabel lblStatus;
+	private JLabel lblDate;
+	private JLabel lblNewLabel;
+	private JTextField txtRa;
+	
 
 	/**
 	 * Launch the application.
@@ -50,6 +63,7 @@ public class Carometro extends JFrame {
 			@Override
 			public void windowActivated(WindowEvent e) {
 				status();
+				setarData();
 			}
 		});
 		setTitle("Carometro");
@@ -61,26 +75,86 @@ public class Carometro extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.textHighlight);
+		panel.setBounds(0, 248, 624, 49);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		lblStatus = new JLabel("");
+		lblStatus.setIcon(new ImageIcon(Carometro.class.getResource("/img/dboff.png")));
+		lblStatus.setBounds(582, 11, 32, 32);
+		panel.add(lblStatus);
+		
+		lblDate = new JLabel("");
+		lblDate.setForeground(SystemColor.text);
+		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDate.setBounds(10, 11, 271, 27);
+		panel.add(lblDate);
+		
+		lblNewLabel = new JLabel("RE:");
+		lblNewLabel.setBounds(23, 21, 21, 14);
+		contentPane.add(lblNewLabel);
+		
+		txtRa = new JTextField();
+		txtRa.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				String caracteres = "0123456789";
+				if(!caracteres.contains(e.getKeyChar()+"")) {
+					e.consume();
+				}
+			}
+		});
+		txtRa.setBounds(45, 20, 86, 16);
+		contentPane.add(txtRa);
+		txtRa.setColumns(10);
 	} // fim do construtor
 	
-	private void status() {
+	
+	
+
+//	private void status() {
+//		try {
+//			con = dao.conection();
+//				if (con == null) {
+//				//System.out.println("Erro de Conecxão");	
+//					lblStatus.setIcon(new ImageIcon(Carometro.class.getResource("/img/dboff.png")));
+//				} else {
+//					lblStatus.setIcon(new ImageIcon(Carometro.class.getResource("/img/dbon.png")));
+//
+//		}
+//			con.close(); // fechando a conexão
+//			
+//		} catch (Exception e) {
+//		System.out.println(e);  //digito sysout depois ctrl+space ele se auto completa
+//			
+//			
+//		}
+//		
+//	}
+	
+	private void status(){
 		try {
 			con = dao.conection();
 			if (con == null) {
-				System.out.println("Erro de Conecxão");	
+				lblStatus.setIcon(new ImageIcon(Carometro.class.getResource("/img/dboff.png")));
 				
 			} else {
-				System.out.println("DataBase Connected");
-
+				lblStatus.setIcon(new ImageIcon(Carometro.class.getResource("/img/dbon.png")));
+					
 			}
-			con.close(); // fechando a conecção
-			
+			con.close();
 		} catch (Exception e) {
-			System.out.println(e);  //digito sysout depois ctrl+space ele se auto completa
-			
-			
+			System.out.println(e);
 		}
-		
 	}
 	
+	private void setarData(){
+		Date data = new Date();
+		DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+		lblDate.setText(formatador.format(data));
+	}
 }
