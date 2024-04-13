@@ -226,7 +226,7 @@ public class Carometro extends JFrame {
 	}
 	
 	private void adicionar() {
-		if(txtNome.getText().isEmpty()) {
+		if(txtNome.getText().isEmpty()) { //obriga o preenchimento do campo
 			JOptionPane.showMessageDialog(null ,"Preencha o campo nome para continuar!");
 			txtNome.requestFocus();
 		}else {
@@ -248,22 +248,7 @@ public class Carometro extends JFrame {
 			}
 				
 		}
-		String insert = "insert into funcionários(nome,foto) values(? , ?)";
-		try {
-			con = dao.conection();
-			pst = con.prepareStatement(insert);
-			pst.setString(1, txtNome.getText());
-			pst.setBlob(2, fis, tamanho);
-			int confirma = pst.executeUpdate();
-			if(confirma == 1) {
-				JOptionPane.showInternalMessageDialog(null, "Aluno cadastrado!");
-			}else {
-				JOptionPane.showInternalMessageDialog(null, "Aluno não cadastrado!");
-			}
-						
-		} catch(Exception e) {
-			System.out.println(e);
-		}
+		
 	}
 };
 
