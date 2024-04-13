@@ -10,7 +10,11 @@ Criar um programa que seja capaz e armazenar fotos e dados no Banco de Dados usa
   </a>
 </p>
 
-### Gif do status atual do projeto
+### 1° Gif do status atual do projeto
 ___
 
 ![java](https://github.com/PauloCruz34/Carometro/assets/126684518/e9443e2a-ad70-46a8-b7b1-d2c342c20cd2)
+
+
+### 2° Gif do Status do projeto, gravando nomes e fotos no banco de dados
+___
