@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -23,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
@@ -37,6 +39,7 @@ public class Carometro extends JFrame {
 	// istanciando objetos
 	DAO dao = new DAO();
 	private Connection con;
+	private PreparedStatement pst;
 	
 	// instanciar objetos para o fluxo de Byts
 	
@@ -58,6 +61,7 @@ public class Carometro extends JFrame {
 	private JTextField txtRe;
 	private JLabel lblFoto;
 	private JLabel lblNewLabel_2;
+	private JTextField txtNome;
 	
 
 	/**
@@ -93,6 +97,7 @@ public class Carometro extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 701, 380);
 		contentPane =  new JPanel();
+		contentPane.setToolTipText("");
 		contentPane.setBounds(new Rectangle(0, 0, 256, 256));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -140,7 +145,7 @@ public class Carometro extends JFrame {
 		lblNome.setBounds(23, 71, 46, 14);
 		contentPane.add(lblNome);
 		
-		JTextField txtNome = new JTextField();
+		txtNome = new JTextField();
 		txtNome.setBounds(75, 64, 272, 26);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);		
@@ -166,6 +171,17 @@ public class Carometro extends JFrame {
 		btnDownload.setForeground(SystemColor.textHighlight);
 		btnDownload.setBounds(214, 106, 133, 23);
 		contentPane.add(btnDownload);
+		
+		JButton btnAdicionar = new JButton("");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adicionar();
+			}
+		});
+		btnAdicionar.setToolTipText("Adicionar");
+		btnAdicionar.setIcon(new ImageIcon(Carometro.class.getResource("/img/create.png")));
+		btnAdicionar.setBounds(23, 217, 64, 64);
+		contentPane.add(btnAdicionar);
 		
 	} // fim do construtor
 	
@@ -208,4 +224,46 @@ public class Carometro extends JFrame {
 			}
 		}
 	}
+	
+	private void adicionar() {
+		if(txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null ,"Preencha o campo nome para continuar!");
+			txtNome.requestFocus();
+		}else {
+			String insert = "insert into funcionários(nome,foto) values(? , ?)";
+			try {
+				con = dao.conection();
+				pst = con.prepareStatement(insert);
+				pst.setString(1, txtNome.getText());
+				pst.setBlob(2, fis, tamanho);
+				int confirma = pst.executeUpdate();
+				if(confirma == 1) {
+					JOptionPane.showInternalMessageDialog(null, "Aluno cadastrado!");
+				}else {
+					JOptionPane.showInternalMessageDialog(null, "Aluno não cadastrado!");
+				}
+							
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+				
+		}
+		String insert = "insert into funcionários(nome,foto) values(? , ?)";
+		try {
+			con = dao.conection();
+			pst = con.prepareStatement(insert);
+			pst.setString(1, txtNome.getText());
+			pst.setBlob(2, fis, tamanho);
+			int confirma = pst.executeUpdate();
+			if(confirma == 1) {
+				JOptionPane.showInternalMessageDialog(null, "Aluno cadastrado!");
+			}else {
+				JOptionPane.showInternalMessageDialog(null, "Aluno não cadastrado!");
+			}
+						
+		} catch(Exception e) {
+			System.out.println(e);
+		}
+	}
 };
+
