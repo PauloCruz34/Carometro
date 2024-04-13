@@ -3,7 +3,7 @@
 ### Objetivo
 ___
 
-Criar um programa que seja capaz e armazenar fotos e dados no Banco de Dados usando SGB JDBC.
+Criar um programa que seja capaz e armazenar fotos e dados no Banco de Dados usando SGBD JDBC.
 <p align="lefth" >
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=java,mysql,git" />
