@@ -22,6 +22,8 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultButtonModel;
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,6 +41,10 @@ import com.mysql.cj.jdbc.Blob;
 
 import model.DAO;
 import utils.Validador;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Carometro extends JFrame {
 
@@ -70,6 +76,10 @@ public class Carometro extends JFrame {
 	private JLabel lblNewLabel_2;
 	private JTextField txtNome;
 	private JButton btnBuscar;
+	private JList<String> listNomes;
+	private JScrollPane scrollPaneLista;
+	private JButton btnEditar;
+	private JButton btnExcluir;
 
 	/**
 	 * Launch the application.
@@ -111,6 +121,22 @@ public class Carometro extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		scrollPaneLista = new JScrollPane();
+		scrollPaneLista.setBorder(null);
+		scrollPaneLista.setVisible(false);
+		scrollPaneLista.setBounds(76, 88, 271, 118);
+		contentPane.add(scrollPaneLista);
+		
+		listNomes = new JList();
+		listNomes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscarNome();
+			}
+		});
+		listNomes.setBorder(null);
+		scrollPaneLista.setViewportView(listNomes);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.textHighlight);
@@ -154,6 +180,13 @@ public class Carometro extends JFrame {
 		contentPane.add(lblNome);
 
 		txtNome = new JTextField();
+		txtNome.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		txtNome.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				listarNomes();
+			}
+		});
 		txtNome.setBounds(75, 64, 272, 26);
 		contentPane.add(txtNome);
 		txtNome.setColumns(10);
@@ -180,17 +213,6 @@ public class Carometro extends JFrame {
 		btnDownload.setBounds(214, 106, 133, 26);
 		contentPane.add(btnDownload);
 
-		JButton btnAdicionar = new JButton("");
-		btnAdicionar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				adicionar();
-			}
-		});
-		btnAdicionar.setToolTipText("Adicionar");
-		btnAdicionar.setIcon(new ImageIcon(Carometro.class.getResource("/img/create.png")));
-		btnAdicionar.setBounds(23, 217, 64, 64);
-		contentPane.add(btnAdicionar);
-
 		JButton btnReset = new JButton("");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -211,6 +233,39 @@ public class Carometro extends JFrame {
 		btnBuscar.setForeground(SystemColor.textHighlight);
 		btnBuscar.setBounds(214, 15, 133, 26);
 		contentPane.add(btnBuscar);
+		
+		JButton btnAdicionar = new JButton("");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adicionar();
+			}
+		});
+		btnAdicionar.setIcon(new ImageIcon(Carometro.class.getResource("/img/create.png")));
+		btnAdicionar.setToolTipText("Adicionar");
+		btnAdicionar.setBounds(23, 217, 64, 64);
+		contentPane.add(btnAdicionar);
+		
+		btnEditar = new JButton("");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editar();
+			}
+		});
+		btnEditar.setIcon(new ImageIcon(Carometro.class.getResource("/img/update.png")));
+		btnEditar.setToolTipText("Alterar");
+		btnEditar.setBounds(97, 217, 64, 64);
+		contentPane.add(btnEditar);
+		
+		btnExcluir = new JButton("");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluir();
+			}
+		});
+		btnExcluir.setIcon(new ImageIcon(Carometro.class.getResource("/img/delete.png")));
+		btnExcluir.setToolTipText("excluir");
+		btnExcluir.setBounds(169, 217, 64, 64);
+		contentPane.add(btnExcluir);
 
 	} // fim do construtor
 
@@ -254,34 +309,24 @@ public class Carometro extends JFrame {
 			}
 		}
 	}
-
 	private void adicionar() {
-		if (txtNome.getText().isEmpty()) { // obriga o preenchimento do campo
-			JOptionPane.showMessageDialog(null, "Preencha o campo nome para continuar!");
-			txtNome.requestFocus();
-		} else {
-			String insert = "insert into funcionários(nome,foto) values(? , ?)";
-			try {
-				con = dao.conection();
-				pst = con.prepareStatement(insert);
-				pst.setString(1, txtNome.getText());
-				pst.setBlob(2, fis, tamanho);
-				int confirma = pst.executeUpdate();
-				if (confirma == 1) {
-					JOptionPane.showInternalMessageDialog(null, "Funcionário cadastrado!");
-					reset();
-				} else {
-					JOptionPane.showInternalMessageDialog(null, "Funcioário não cadastrado!");
-				}
-
-			} catch (Exception e) {
-				System.out.println(e);
+		String insert = "insert into funcionários(nome,foto) values (? ,?)";
+		try {
+			con = dao.conection();
+			pst = con.prepareStatement(insert);
+			pst.setString(1,txtNome.getText());
+			pst.setBlob(2,fis,tamanho);
+			int confirma = pst.executeUpdate();
+			if (confirma==1) {
+				JOptionPane.showMessageDialog(null, "Funcionário Cadastrado");
+			} else {
+				JOptionPane.showMessageDialog(null, "Funcionário Não Cadastrado");
 			}
-
+			con.close();			
+		} catch (Exception e) {
+			System.out.println(e);
 		}
-
 	}
-
 	private void buscarRE() {
 		if (txtRe.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Digite o RE");
@@ -320,13 +365,111 @@ public class Carometro extends JFrame {
 		}
 
 	}
+	
+	private void listarNomes() {
+		DefaultListModel<String> modelo = new DefaultListModel<>(); 
+		listNomes.setModel(modelo);
+		String readLista = "select * from funcionários where nome like '" + txtNome.getText() + "%'" + "order by nome";
+		try {
+			con = dao.conection();
+			pst = con.prepareStatement(readLista);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				scrollPaneLista.setVisible(true);
+				modelo.addElement(rs.getString(2));
+				if(txtNome.getText().isEmpty()) {
+					scrollPaneLista.setVisible(false);
+				}
+			}
+			con.close();
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	private void buscarNome() {
+		int linha = listNomes.getSelectedIndex();
+		if (linha >= 0) {
+			String readNome = "select * from funcionários where nome like '" + txtNome.getText() + "%'"
+					+ "order by nome limit " + (linha) + ", 1";
+			try {
+				con = dao.conection();
+				pst = con.prepareStatement(readNome);
+				rs = pst.executeQuery();
+				while(rs.next()) {
+					scrollPaneLista.setVisible(false);
+					txtRe.setText(rs.getString(1));
+					txtNome.setText(rs.getString(2));
+					Blob blob = (Blob) rs.getBlob(3);
+					byte[] img = blob.getBytes(1, (int) blob.length()); // converte dados binarios para arquivo de
+																		// imagem
+					BufferedImage imagem = null;
+					try {
+						imagem = ImageIO.read(new ByteArrayInputStream(img));
+					} catch (Exception e) {
+						System.out.println(e);
+					}
+					ImageIcon icone = new ImageIcon(imagem);
+					Icon foto = new ImageIcon(icone.getImage().getScaledInstance(lblFoto.getWidth(),
+							lblFoto.getHeight(), Image.SCALE_SMOOTH));
+					lblFoto.setIcon(foto);					
+				}
+				con.close();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		} else {
+			scrollPaneLista.setVisible(false);
+		}
+	}
+	
+	private void editar() {
+		String update = "update funcionários set nome=? , foto=? where re = ?";
+		try {
+			con = dao.conection();
+			pst = con.prepareStatement(update);
+			pst.setString(1,txtNome.getText());
+			pst.setBlob(2,fis,tamanho);
+			pst.setString(3, txtRe.getText());
+			int confirma = pst.executeUpdate();
+			if (confirma==1) {
+				JOptionPane.showMessageDialog(null, "Dados do Funcionário Alterados");
+			} else {
+				JOptionPane.showMessageDialog(null, "Funcionário Não Alterado");
+			}
+			con.close();			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	private void excluir() {
+		int confirmaExcluir = JOptionPane.showConfirmDialog(null,"Confirma a exclusão?", "Atenção", JOptionPane.YES_NO_OPTION);
+		if(confirmaExcluir==JOptionPane.YES_NO_OPTION) {
+			String delete =  "delete from funcionários where re=?";
+			try {
+				con = dao.conection();
+				pst = con.prepareStatement(delete);
+				pst.setString(1, txtRe.getText());
+				int confirma = pst.executeUpdate();
+				if(confirma == 1) {
+					reset();
+					JOptionPane.showMessageDialog(null, "Funcioário Excluido");
+				}
+				
+			}catch (Exception e) {
+			System.out.println(e);
+			}
+			
+		}
+	}
 
-	private void reset() { // apaga os campos quando o funcioário ja esta cadastrado e posiciona o cursor
-							// no campo nome
+	private void reset() { // apaga os campos quando o funcioário ja esta cadastrado e posiciona o cursor no campo nome			
 		txtRe.setText(null);
+		scrollPaneLista.setVisible(false);
 		txtNome.setText(null);
 		lblFoto.setIcon(new ImageIcon(Carometro.class.getResource("/img/camera.png")));
 		txtNome.requestFocus();
 	}
-
 };
