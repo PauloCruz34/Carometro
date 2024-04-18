@@ -610,7 +610,7 @@ public class Carometro extends JFrame {
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream("funcionários.pdf"));
 			document.open();
-			document.add(new Paragraph("Listagem de Funcioánrios:"));
+			document.add(new Paragraph("Listagem de Funcionários:"));
 		} catch (Exception e) {
 			System.out.println(e);
 		}finally {
