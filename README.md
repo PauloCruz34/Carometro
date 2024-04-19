@@ -6,10 +6,13 @@ ___
 Criar um programa que seja capaz e armazenar fotos e dados no Banco de Dados usando SGBD JDBC.
 <p align="lefth" >
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=java,mysql,git" />
+    <img src="https://skillicons.dev/icons?i=java,mysql,git," />
   </a>
 </p>
 
+## Instruções para instalação e uso do aplicativo
+* Ter instalado no computador a versao do java JDK 17 ou superior. que pode ser obtida pelo link :
+  ![Jdk Dowload](https://adoptium.net/)
 ### 1° Gif do status atual do projeto
 ___
 
