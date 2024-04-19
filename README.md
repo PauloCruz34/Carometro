@@ -47,4 +47,6 @@ CREATE TABLE funcionários(
 * Validação de dados
 * Uso da biblioteca iTextpdf para gerar listagem de alunos com foto
 
- 
+### Projeto terminado
+![java3](https://github.com/PauloCruz34/Carometro/assets/126684518/b7bb8bb3-04f5-4a78-8376-f5a413c50be4)
+
