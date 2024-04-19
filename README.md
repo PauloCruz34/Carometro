@@ -11,8 +11,23 @@ Criar um programa que seja capaz e armazenar fotos e dados no Banco de Dados usa
 </p>
 
 ## Instruções para instalação e uso do aplicativo
-* Ter instalado no computador a versao do java JDK 17 ou superior. que pode ser obtida pelo link :
-  ![Jdk Dowload](https://adoptium.net/)
+* Ter instalado no computador a versao do java JDK 17 ou superior. que pode ser obtida pelo link : [Jdk](https://adoptium.net/)
+* Ter instalado o sgbd MySQL 8, MariaDB ou Xaamp, o MySQL 8 pode ser obtido no link: [MySQL](https://dev.mysql.com/downloads/)
+* No MySQL cole o sequinte script:
+ ```
+CREATE SCHEMA CarometroDb;
+USE CarometroDB;
+
+CREATE TABLE funcionários(
+	re INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(30) NOT NULL,
+    foto LONGBLOB NOT NULL
+);
+```
+### Instalação do App
+
+
+  
 ### 1° Gif do status atual do projeto
 ___
 
