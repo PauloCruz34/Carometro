@@ -27,7 +27,11 @@ CREATE TABLE funcionários(
 ### Instalação do App
 * Em Releases faça o dowload do arquivo Carometro.jar [Carometro.jar](https://github.com/PauloCruz34/Carometro/releases/tag/Carometro)
 * Execute e verefique se o simbolo que representa o Banco de dados esta ativado na parte inferior direita da tela conforme as imagens a seguir:
-  
+  #### Desativado
+
+  ![Carometro desativado](https://github.com/PauloCruz34/Carometro/assets/126684518/9b3e2340-abbc-4bfc-9d45-68a2387405cf)
+
+  #### Ativado
   
 ### 1° Gif do status atual do projeto
 ___
