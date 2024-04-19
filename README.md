@@ -6,7 +6,7 @@ ___
 Criar um programa que seja capaz e armazenar fotos e dados no Banco de Dados usando SGBD JDBC.
 <p align="lefth" >
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=java,mysql,git," />
+    <img src="https://skillicons.dev/icons?i=java,mysql,git,eclipse" />
   </a>
 </p>
 
@@ -32,21 +32,19 @@ CREATE TABLE funcionários(
   ![Carometro desativado](https://github.com/PauloCruz34/Carometro/assets/126684518/9b3e2340-abbc-4bfc-9d45-68a2387405cf)
 
   #### Ativado
+
+  ![Carometro Ativado](https://github.com/PauloCruz34/Carometro/assets/126684518/8834e024-7c9a-404b-bed8-c5d7b3ce34c0)
+
   
-### 1° Gif do status atual do projeto
-___
+### Tecnologias Utilizadas
 
-![java](https://github.com/PauloCruz34/Carometro/assets/126684518/e9443e2a-ad70-46a8-b7b1-d2c342c20cd2)
+* Criação de banco de dados e tabelas no MySQL
+* CRUD (Create Read Update e Delete)
+* IDE Eclipse
+* Java SE
+* Window Builder
+* JDBC (Java Database Connectivity)
+* Validação de dados
+* Uso da biblioteca iTextpdf para gerar listagem de alunos com foto
 
-
-### 2° Gif do Status do projeto, gravando nomes e fotos no banco de dados
-___
-
-![java2](https://github.com/PauloCruz34/Carometro/assets/126684518/59b24175-335d-4a39-89e7-e2accd74ca75)
-
-
-### 3° Gif do Status do Projeto, gravando, alterando e excluindo dados
-___
-
-![java3](https://github.com/PauloCruz34/Carometro/assets/126684518/b98242d5-62fc-40fe-b052-d31f7ddd6b68)
-
+ 
